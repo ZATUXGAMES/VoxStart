@@ -164,9 +164,9 @@
     box-shadow: 0 0 6px var(--color-online-green);
   }
 
-  /* Chat global */
-  #globalChat {
-    position: absolute;
+  /* Chat global panel separado */
+  #chatPanel {
+    position: fixed;
     bottom: 12px;
     right: 12px;
     width: 320px;
@@ -174,11 +174,15 @@
     background: var(--color-white);
     border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    display: flex;
+    display: none;
     flex-direction: column;
     height: 280px;
     font-size: 14px;
     user-select: text;
+    z-index: 1000;
+  }
+  #chatPanel.active {
+    display: flex;
   }
   #chatMessages {
     flex-grow: 1;
@@ -228,6 +232,7 @@
     <img class="logo" src="https://i.ibb.co/7XNvR5t/voxstart-logo.png" alt="Vox Start Logo" />
     <button id="btnLogin" aria-controls="login" aria-haspopup="true">Iniciar sesión</button>
     <button id="btnRegister" class="secondary" aria-controls="register" aria-haspopup="true">Registrarse</button>
+    <button id="btnToggleChat" class="secondary" aria-haspopup="true" aria-pressed="false">Chat Global</button>
     <div class="footer-text" aria-live="polite">Desarrollador empresarial: @zatuxofciall</div>
   </div>
 
@@ -251,89 +256,102 @@
     <input type="email" id="regEmail" placeholder="Correo electrónico" autocomplete="email" required />
     <input type="password" id="regPass" placeholder="Contraseña" autocomplete="new-password" required />
     <input type="password" id="regPassConf" placeholder="Confirmar contraseña" autocomplete="new-password" required />
-    <button id="registerSubmit">Registrarse</button>
+    <button id="registerSubmit">Registrar</button>
     <button class="link-button" id="registerBack" aria-controls="menu">Volver</button>
   </div>
+</div>
 
-  <!-- CHAT GLOBAL -->
-  <div id="globalChat" aria-label="Chat global">
-    <div id="chatMessages" tabindex="0" aria-live="polite" aria-relevant="additions"></div>
-    <div id="chatInputContainer">
-      <input type="text" id="chatInput" aria-label="Escribir mensaje en chat global" placeholder="Escribe un mensaje..." />
-      <button id="chatSendBtn" aria-label="Enviar mensaje">Enviar</button>
-    </div>
+<!-- CHAT GLOBAL EN PANEL SEPARADO -->
+<div id="chatPanel" aria-label="Chat global">
+  <div id="chatMessages" role="log" aria-live="polite" aria-relevant="additions"></div>
+  <div id="chatInputContainer">
+    <input id="chatInput" type="text" placeholder="Escribe un mensaje..." aria-label="Mensaje para chat global" />
+    <button id="chatSendBtn">Enviar</button>
   </div>
-
 </div>
 
 <script>
-  // Navegación simple entre paneles
-  const panels = document.querySelectorAll('.panel');
-  function showPanel(id) {
-    panels.forEach(p => p.classList.remove('active'));
-    const panel = document.getElementById(id);
-    if(panel) panel.classList.add('active');
+  // Variables para paneles
+  const menu = document.getElementById('menu');
+  const login = document.getElementById('login');
+  const register = document.getElementById('register');
+  const chatPanel = document.getElementById('chatPanel');
+
+  // Botones menú principal
+  const btnLogin = document.getElementById('btnLogin');
+  const btnRegister = document.getElementById('btnRegister');
+  const btnToggleChat = document.getElementById('btnToggleChat');
+
+  // Botones formularios
+  const loginBack = document.getElementById('loginBack');
+  const registerBack = document.getElementById('registerBack');
+
+  // Mostrar panel, ocultar otros
+  function showPanel(panel) {
+    [menu, login, register].forEach(p => p.classList.remove('active'));
+    panel.classList.add('active');
+    // Al mostrar formulario ocultar chat para evitar distracciones
+    chatPanel.classList.remove('active');
+    btnToggleChat.setAttribute('aria-pressed', 'false');
   }
 
-  // Botones menú
-  document.getElementById('btnLogin').onclick = () => showPanel('login');
-  document.getElementById('btnRegister').onclick = () => showPanel('register');
-  document.getElementById('loginBack').onclick = () => showPanel('menu');
-  document.getElementById('registerBack').onclick = () => showPanel('menu');
-
-  // Validaciones básicas (solo para mostrar la estructura)
-  document.getElementById('registerSubmit').onclick = () => {
-    const user = document.getElementById('regUser').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const pass = document.getElementById('regPass').value;
-    const passConf = document.getElementById('regPassConf').value;
-    const errorDiv = document.getElementById('registerError');
-    errorDiv.textContent = '';
-
-    if(!user) return errorDiv.textContent = 'El nombre de usuario es obligatorio.';
-    if(!email.includes('@')) return errorDiv.textContent = 'Correo electrónico no válido.';
-    if(pass.length < 6) return errorDiv.textContent = 'La contraseña debe tener al menos 6 caracteres.';
-    if(pass !== passConf) return errorDiv.textContent = 'Las contraseñas no coinciden.';
-    alert('Registro OK (simulado). Aquí iría la lógica real.');
-  };
-
-  document.getElementById('loginSubmit').onclick = () => {
-    const email = document.getElementById('loginEmail').value.trim();
-    const pass = document.getElementById('loginPass').value;
-    const errorDiv = document.getElementById('loginError');
-    errorDiv.textContent = '';
-
-    if(!email.includes('@')) return errorDiv.textContent = 'Correo electrónico no válido.';
-    if(pass.length < 6) return errorDiv.textContent = 'Contraseña incorrecta.';
-    alert('Login OK (simulado). Aquí iría la lógica real.');
-  };
-
-  // Simulación usuarios online en cada panel
-  function randomUsersOnline() {
-    return Math.floor(Math.random() * 99) + 1;
+  // Mostrar menú inicial
+  function showMenu() {
+    showPanel(menu);
   }
-  document.getElementById('onlineMenu').textContent = randomUsersOnline();
-  document.getElementById('onlineLogin').textContent = randomUsersOnline();
-  document.getElementById('onlineRegister').textContent = randomUsersOnline();
 
-  // Chat global básico (solo UI y scroll)
+  btnLogin.addEventListener('click', () => showPanel(login));
+  btnRegister.addEventListener('click', () => showPanel(register));
+  loginBack.addEventListener('click', () => showMenu());
+  registerBack.addEventListener('click', () => showMenu());
+
+  // Toggle chat global visible/oculto
+  btnToggleChat.addEventListener('click', () => {
+    if(chatPanel.classList.contains('active')) {
+      chatPanel.classList.remove('active');
+      btnToggleChat.setAttribute('aria-pressed', 'false');
+    } else {
+      chatPanel.classList.add('active');
+      btnToggleChat.setAttribute('aria-pressed', 'true');
+    }
+  });
+
+  // Chat global: enviar y mostrar mensajes
   const chatMessages = document.getElementById('chatMessages');
   const chatInput = document.getElementById('chatInput');
   const chatSendBtn = document.getElementById('chatSendBtn');
 
-  chatSendBtn.onclick = () => {
-    const msg = chatInput.value.trim();
-    if(!msg) return;
+  function addChatMessage(msg, user = "Anónimo") {
     const p = document.createElement('p');
-    p.textContent = 'Tú: ' + msg;
+    p.textContent = `${user}: ${msg}`;
     chatMessages.appendChild(p);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    chatInput.value = '';
-  };
+  }
 
-  chatInput.addEventListener('keydown', e => {
-    if(e.key === 'Enter') chatSendBtn.click();
+  chatSendBtn.addEventListener('click', () => {
+    const text = chatInput.value.trim();
+    if(text) {
+      addChatMessage(text, "Tú");
+      chatInput.value = "";
+      chatInput.focus();
+    }
   });
+
+  chatInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      chatSendBtn.click();
+    }
+  });
+
+  // Indicador de usuarios online (simulado)
+  function updateOnlineIndicators(count) {
+    document.getElementById('onlineMenu').textContent = count;
+    document.getElementById('onlineLogin').textContent = count;
+    document.getElementById('onlineRegister').textContent = count;
+  }
+  updateOnlineIndicators(12);
+
 </script>
 
 </body>

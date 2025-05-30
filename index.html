@@ -1,88 +1,272 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vox Start</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: sans-serif; background: #111; color: #fff; text-align: center; }
-    .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-    h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-    p { margin-bottom: 2rem; color: #aaa; }
-    button { padding: 0.75rem 2rem; margin: 0.5rem; border: none; background: #f00; color: #fff; font-size: 1rem; cursor: pointer; border-radius: 8px; }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; flex-direction: column; }
-    .modal input { margin: 0.5rem 0; padding: 0.5rem; width: 250px; border: none; border-radius: 4px; }
-    .profile, .politica, .soporte { display: none; flex-direction: column; align-items: center; padding: 2rem; }
-    .profile button, .politica button, .soporte button { background: #333; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vox Start - Login / Registro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  :root {
+    --color-primary: #2f80ed;
+    --color-bg: #f5f7fa;
+    --color-white: #fff;
+    --color-text: #333;
+    --color-text-light: #666;
+    --color-border: #ddd;
+    --color-error: #e74c3c;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body, html {
+    margin:0; padding:0; height:100%;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    background: var(--color-white);
+    width: 360px;
+    max-width: 90vw;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    padding: 24px 32px;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  h2 {
+    margin-bottom: 24px;
+    font-weight: 400;
+    color: var(--color-text-light);
+  }
+
+  img.logo {
+    width: 140px;
+    margin-bottom: 24px;
+  }
+
+  button {
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 6px;
+    color: var(--color-white);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 24px;
+    margin: 12px 0;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #1366d6;
+  }
+
+  button.secondary {
+    background-color: #fff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  button.secondary:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--color-text);
+  }
+  input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+  }
+
+  .link-button {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 12px;
+    text-decoration: underline;
+  }
+
+  /* Hide all panels by default */
+  .panel {
+    display: none;
+  }
+  /* Show active panel */
+  .panel.active {
+    display: block;
+  }
+
+  /* Scroll container if needed */
+  .scrollable {
+    max-height: 60vh;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  /* Footer text */
+  .footer-text {
+    font-size: 12px;
+    color: var(--color-text-light);
+    margin-top: 18px;
+  }
+</style>
 </head>
 <body>
-  <div class="container" id="main">
-    <h1>Vox Start</h1>
-    <p>Desarrollador empresarial: @zatuxofciall</p>
-    <button onclick="showModal('login')">Iniciar sesión</button>
-    <button onclick="showModal('signup')">Registrarse</button>
+
+<div class="container">
+
+  <!-- MENU PRINCIPAL -->
+  <div id="menu" class="panel active">
+    <img class="logo" src="https://i.ibb.co/7XNvR5t/voxstart-logo.png" alt="Vox Start Logo" />
+    <button id="btnLogin">Iniciar sesión</button>
+    <button id="btnRegister" class="secondary">Registrarse</button>
+    <div class="footer-text">Desarrollador empresarial: @zatuxofciall</div>
   </div>
 
-  <div class="modal" id="loginModal">
-    <input type="email" placeholder="Correo">
-    <input type="password" placeholder="Contraseña">
-    <button onclick="goToProfile()">Entrar</button>
-    <button onclick="hideModals()">Volver</button>
+  <!-- LOGIN -->
+  <div id="login" class="panel">
+    <h1>Iniciar sesión</h1>
+    <input type="email" id="loginEmail" placeholder="Correo electrónico" />
+    <input type="password" id="loginPass" placeholder="Contraseña" />
+    <button id="loginSubmit">Entrar</button>
+    <button class="link-button" id="loginBack">Volver</button>
   </div>
 
-  <div class="modal" id="signupModal">
-    <input type="text" placeholder="Nombre de usuario">
-    <input type="email" placeholder="Correo">
-    <input type="password" placeholder="Contraseña">
-    <input type="password" placeholder="Confirmar contraseña">
-    <button onclick="goToProfile()">Registrarse</button>
-    <button onclick="hideModals()">Volver</button>
+  <!-- REGISTRO -->
+  <div id="register" class="panel">
+    <h1>Crear cuenta</h1>
+    <input type="text" id="regUser" placeholder="Nombre de usuario" />
+    <input type="email" id="regEmail" placeholder="Correo electrónico" />
+    <input type="password" id="regPass" placeholder="Contraseña" />
+    <input type="password" id="regPassConf" placeholder="Confirmar contraseña" />
+    <button id="registerSubmit">Registrarse</button>
+    <button class="link-button" id="registerBack">Volver</button>
   </div>
 
-  <div class="profile" id="profile">
-    <h2>Bienvenido, @usuario</h2>
-    <button onclick="goToPage('politica')">Política de privacidad</button>
-    <button onclick="goToPage('soporte')">Soporte</button>
+  <!-- PERFIL -->
+  <div id="profile" class="panel">
+    <h1>Perfil de usuario</h1>
+    <p><strong>Nombre:</strong> <span id="profileName">Usuario</span></p>
+    <button id="btnPolicy">Política de privacidad</button>
+    <button id="btnSupport" class="secondary">Soporte</button>
+    <button class="link-button" id="profileLogout">Cerrar sesión</button>
   </div>
 
-  <div class="politica" id="politica">
+  <!-- POLITICA -->
+  <div id="policy" class="panel scrollable">
     <h2>Política de privacidad</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-    <button onclick="goToPage('profile')">Volver al perfil</button>
+    <p>Aquí va el texto de la política de privacidad. Puedes agregar lo que quieras.</p>
+    <button class="link-button" id="policyBack">Volver</button>
   </div>
 
-  <div class="soporte" id="soporte">
-    <h2>Soporte</h2>
-    <p>Contactanos: soporte@voxstart.com</p>
-    <button onclick="goToPage('profile')">Volver al perfil</button>
+  <!-- SOPORTE -->
+  <div id="support" class="panel scrollable">
+    <h2>Soporte técnico</h2>
+    <p>Contacto, preguntas frecuentes y soporte para usuarios.</p>
+    <button class="link-button" id="supportBack">Volver</button>
   </div>
 
-  <script>
-    function showModal(type) {
-      hideModals();
-      if (type === 'login') document.getElementById('loginModal').style.display = 'flex';
-      if (type === 'signup') document.getElementById('signupModal').style.display = 'flex';
-    }
+</div>
 
-    function hideModals() {
-      document.getElementById('loginModal').style.display = 'none';
-      document.getElementById('signupModal').style.display = 'none';
-    }
+<script>
+  // Manejo simple de paneles
+  const panels = {
+    menu: document.getElementById('menu'),
+    login: document.getElementById('login'),
+    register: document.getElementById('register'),
+    profile: document.getElementById('profile'),
+    policy: document.getElementById('policy'),
+    support: document.getElementById('support')
+  };
 
-    function goToProfile() {
-      hideModals();
-      document.getElementById('main').style.display = 'none';
-      document.getElementById('profile').style.display = 'flex';
+  function showPanel(name) {
+    for (let key in panels) {
+      panels[key].classList.remove('active');
     }
+    panels[name].classList.add('active');
+  }
 
-    function goToPage(page) {
-      document.getElementById('profile').style.display = 'none';
-      document.getElementById('politica').style.display = 'none';
-      document.getElementById('soporte').style.display = 'none';
-      document.getElementById(page).style.display = 'flex';
+  // Botones menú
+  document.getElementById('btnLogin').onclick = () => showPanel('login');
+  document.getElementById('btnRegister').onclick = () => showPanel('register');
+
+  // Volver login y registro
+  document.getElementById('loginBack').onclick = () => showPanel('menu');
+  document.getElementById('registerBack').onclick = () => showPanel('menu');
+
+  // Botones perfil
+  document.getElementById('btnPolicy').onclick = () => showPanel('policy');
+  document.getElementById('btnSupport').onclick = () => showPanel('support');
+  document.getElementById('policyBack').onclick = () => showPanel('profile');
+  document.getElementById('supportBack').onclick = () => showPanel('profile');
+
+  // Cerrar sesión
+  document.getElementById('profileLogout').onclick = () => {
+    // Resetea campos y regresa al menú
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('regUser').value = '';
+    document.getElementById('regEmail').value = '';
+    document.getElementById('regPass').value = '';
+    document.getElementById('regPassConf').value = '';
+    showPanel('menu');
+  };
+
+  // Simulación registro y login (puedes conectar con backend)
+  document.getElementById('registerSubmit').onclick = () => {
+    const user = document.getElementById('regUser').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPass').value;
+    const passConf = document.getElementById('regPassConf').value;
+
+    if(!user || !email || !pass || !passConf) {
+      alert('Por favor completa todos los campos.');
+      return;
     }
-  </script>
+    if(pass !== passConf) {
+      alert('Las contraseñas no coinciden.');
+      return;
+    }
+    // Aquí se haría la validación real con backend
+    document.getElementById('profileName').textContent = user;
+    showPanel('profile');
+  };
+
+  document.getElementById('loginSubmit').onclick = () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPass').value;
+
+    if(!email || !pass) {
+      alert('Por favor completa todos los campos.');
+      return;
+    }
+    // Aquí validación real con backend
+    // Simulamos que el usuario se llama "UsuarioDemo"
+    document.getElementById('profileName').textContent = 'UsuarioDemo';
+    showPanel('profile');
+  };
+</script>
+
 </body>
 </html>

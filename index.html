@@ -3,96 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Soporte - Corporación Zatux</title>
+  <title>Soporte - Vox Start</title>
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
     body {
-      background: #f3f6fa;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
       color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
     }
     header {
-      background-color: #002244;
-      color: white;
-      padding: 20px 40px;
+      background-color: #000;
+      color: #fff;
+      padding: 1rem;
       text-align: center;
     }
     main {
-      flex: 1;
       max-width: 600px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: #fff;
+      border-radius: 8px;
     }
     h1 {
       text-align: center;
-      color: #002244;
-      margin: 30px 0;
+      margin-bottom: 1rem;
     }
     form {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      padding: 20px;
     }
     label {
-      font-weight: 600;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
     }
-    input, textarea, button {
-      padding: 10px;
+    input, textarea {
+      padding: 0.5rem;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 4px;
       font-size: 1rem;
     }
     button {
-      background-color: #002244;
-      color: white;
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      background-color: #000;
+      color: #fff;
       border: none;
+      border-radius: 4px;
+      font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.2s;
     }
     button:hover {
-      background-color: #0055aa;
+      background-color: #333;
     }
     footer {
-      background-color: #002244;
-      color: #ccc;
       text-align: center;
-      padding: 15px 10px;
-      font-size: 0.9rem;
+      padding: 1rem;
+      background-color: #000;
+      color: #fff;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
   <header>
-    <h2>Corporación Zatux - Soporte</h2>
+    <h2>Vox Start - Soporte</h2>
   </header>
-
   <main>
     <h1>Reportar un Error</h1>
     <form action="mailto:soporte@zatux.com" method="POST" enctype="text/plain">
-      <label for="nombre">Tu nombre</label>
-      <input type="text" id="nombre" name="nombre" required />
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
 
-      <label for="correo">Correo electrónico</label>
-      <input type="email" id="correo" name="correo" required />
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" name="correo" required>
 
-      <label for="descripcion">Descripción del error</label>
-      <textarea id="descripcion" name="descripcion" rows="6" required placeholder="Explica qué pasó, en qué parte, y cómo reproducirlo."></textarea>
+      <label for="descripcion">Descripción del error:</label>
+      <textarea id="descripcion" name="descripcion" rows="5" required></textarea>
 
-      <button type="submit">Enviar Reporte</button>
+      <button type="submit">Enviar</button>
     </form>
   </main>
-
   <footer>
-    &copy; 2025 Corporación Zatux - Todos los derechos reservados.
+    &copy; 2025 Corporación Zatux. Todos los derechos reservados.
   </footer>
 </body>
 </html>
+

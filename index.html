@@ -1,20 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Corporación Zatux</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin:0; padding:0;
+    background: #121212;
+    color: #eee;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    background: #222;
+    padding: 10px 20px;
+  }
+  header img {
+    height: 40px;
+    margin-right: 20px;
+  }
+  nav a {
+    color: #eee;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 25px;
+    background: #333;
+    transition: background-color 0.2s ease;
+  }
+  nav a:hover {
+    background: #005a9c;
+  }
+  #header-search {
+    margin-left: auto;
+    padding: 6px 15px;
+    border-radius: 20px;
+    border: none;
+    width: 180px;
+  }
+  main {
+    padding: 20px;
+    max-width: 600px;
+    margin: 30px auto;
+    background: #1e1e1e;
+    border-radius: 12px;
+  }
+  form {
+    display: none;
+    flex-direction: column;
+  }
+  form.active {
+    display: flex;
+  }
+  form h2 {
+    margin-bottom: 15px;
+    color: #00aaff;
+  }
+  label {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  input[type="text"], input[type="email"], input[type="password"], select, textarea {
+    margin-top: 5px;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  button {
+    margin-top: 20px;
+    padding: 10px;
+    background: #005a9c;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #007bcc;
+  }
+  #btn-regresar {
+    margin-bottom: 20px;
+    background: #333;
+  }
+  #btn-regresar:hover {
+    background: #555;
+  }
+  /* Soporte pequeño botón flotante */
+  #btn-soporte-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #f44336;
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 48px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+  }
+  /* Chat online */
+  #chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 320px;
+    max-height: 400px;
+    background: #222;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+  }
+  #chat-header {
+    background: #005a9c;
+    padding: 10px;
+    font-weight: bold;
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  #chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  #chat-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #444;
+  }
+  #chat-input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
+    font-size: 1rem;
+  }
+  #chat-send-btn {
+    background: #00aaff;
+    border: none;
+    color: white;
+    padding: 0 16px;
+    margin-left: 8px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  #chat-send-btn:hover {
+    background: #33c4ff;
+  }
+  /* Políticas modal */
+  #modal-politicas {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 9999;
+  }
+  #modal-politicas-content {
+    background: #1a1a1a;
+    padding: 20px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    color: #eee;
+    position: relative;
+  }
+  #modal-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    color: #f44336;
+  }
+  /* Página principal tras login/registro */
+  #user-page {
+    display: none;
+    text-align: center;
+  }
+  #user-page h2 {
+    color: #00aaff;
+  }
+  /* Input bugs/errors */
+  #error-report {
+    margin-top: 25px;
+  }
+  #error-report textarea, #error-report input[type="email"] {
+    width: 100%;
+    margin-top: 5px;
+  }
+  #error-report button {
+    width: 100%;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
 <header>
   <img src="logo-zatux.png" alt="Logo Corporación Zatux" />
   <nav>
     <a href="#" id="btn-login">Login</a>
     <a href="#" id="btn-register">Registro</a>
-    <a href="#" id="btn-soporte">Soporte</a>
     <a href="#" id="btn-politicas">Políticas</a>
   </nav>
-  <input type="text" id="header-search" placeholder="Buscar..." style="margin-left: 20px; padding: 5px 10px; border-radius: 20px; border: 1px solid #ccc; width: 200px;" />
+  <input type="text" id="header-search" placeholder="Buscar..." />
 </header>
 
 <main>
+  <button id="btn-regresar" style="display:none;">← Regresar</button>
 
-  <!-- Botón regresar para formularios -->
-  <button class="btn-regresar" style="display:none; margin-bottom: 15px; padding: 8px 15px; border:none; background:#005a9c; color:#fff; border-radius: 20px; cursor:pointer;" id="btn-regresar">← Regresar</button>
-
-  <form id="form-login" style="display:none;">
+  <!-- Formularios -->
+  <form id="form-login" class="active">
     <h2>Iniciar sesión</h2>
     <label for="login-email">Correo electrónico</label>
     <input type="email" id="login-email" required />
@@ -24,7 +241,7 @@
     <div class="message" id="login-message"></div>
   </form>
 
-  <form id="form-register" style="display:none;">
+  <form id="form-register" style="display:none; flex-direction: column;">
     <h2>Registro de empresa/usuario</h2>
     <label for="register-name">Nombre completo o empresa</label>
     <input type="text" id="register-name" required />
@@ -44,91 +261,110 @@
     <div class="message" id="register-message"></div>
   </form>
 
-  <form id="form-soporte" style="display:none;">
-    <h2>Soporte y Verificaciones</h2>
-    <label for="soporte-tipo">Tipo de solicitud</label>
-    <select id="soporte-tipo" required>
-      <option value="">Seleccione...</option>
-      <option value="verificacion">Solicitud de Verificación</option>
-      <option value="problema">Reporte de Problema</option>
-      <option value="consulta">Consulta General</option>
-    </select>
-    <label for="soporte-descripcion">Descripción detallada</label>
-    <textarea id="soporte-descripcion" placeholder="Explica tu solicitud con detalle..." required></textarea>
-    <label for="soporte-email">Correo electrónico de contacto</label>
-    <input type="email" id="soporte-email" required />
-    <button type="submit">Enviar solicitud</button>
-    <div class="message" id="soporte-message"></div>
-  </form>
+  <!-- Página usuario después login/registro -->
+  <section id="user-page">
+    <h2>Bienvenido, <span id="user-name"></span></h2>
+    <p>Has iniciado sesión correctamente.</p>
+  </section>
 
+  <!-- Input para reportar bugs / errores -->
+  <section id="error-report">
+    <h2>Reporta un error o bug</h2>
+    <textarea id="error-text" placeholder="Describe aquí el error o bug..."></textarea>
+    <input type="email" id="error-email" placeholder="Tu correo para contacto" />
+    <button id="btn-send-error">Enviar reporte</button>
+    <div class="message" id="error-message"></div>
+  </section>
 </main>
 
+<!-- Botón soporte flotante -->
+<div id="btn-soporte-float" title="Soporte técnico">¡</div>
+
+<!-- Chat online -->
+<div id="chat-container">
+  <div id="chat-header">Chat en línea</div>
+  <div id="chat-messages"></div>
+  <div id="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
+    <button id="chat-send-btn">Enviar</button>
+  </div>
+</div>
+
+<!-- Modal Políticas -->
+<div id="modal-politicas" aria-hidden="true">
+  <div id="modal-politicas-content">
+    <span id="modal-close" title="Cerrar">&times;</span>
+    <h2>Políticas y Privacidad</h2>
+    <p>
+      Aquí van las políticas de privacidad, términos y condiciones de uso...
+      <br /><br />
+      (Texto de ejemplo. Cambia por tu contenido real.)
+    </p>
+  </div>
+</div>
+
 <script>
-  // Variables
+  // Referencias
   const btnLogin = document.getElementById('btn-login');
   const btnRegister = document.getElementById('btn-register');
-  const btnSoporte = document.getElementById('btn-soporte');
   const btnPoliticas = document.getElementById('btn-politicas');
-  const footerPoliticas = document.getElementById('footer-politicas-link');
-  const modalPoliticas = document.getElementById('modal-politicas');
-  const modalClose = document.getElementById('modal-close');
-
+  const btnRegresar = document.getElementById('btn-regresar');
   const formLogin = document.getElementById('form-login');
   const formRegister = document.getElementById('form-register');
-  const formSoporte = document.getElementById('form-soporte');
-  const btnRegresar = document.getElementById('btn-regresar');
-  const headerSearch = document.getElementById('header-search');
+  const userPage = document.getElementById('user-page');
+  const userNameSpan = document.getElementById('user-name');
+  const btnSoporteFloat = document.getElementById('btn-soporte-float');
+  const chatContainer = document.getElementById('chat-container');
+  const chatMessages = document.getElementById('chat-messages');
+  const chatInput = document.getElementById('chat-input');
+  const chatSendBtn = document.getElementById('chat-send-btn');
+  const modalPoliticas = document.getElementById('modal-politicas');
+  const modalClose = document.getElementById('modal-close');
+  const errorReportTextarea = document.getElementById('error-text');
+  const errorReportEmail = document.getElementById('error-email');
+  const btnSendError = document.getElementById('btn-send-error');
+  const errorMessage = document.getElementById('error-message');
 
-  // Estado para saber qué formulario está activo
-  let currentForm = null;
-
-  function hideAllForms() {
+  // Función para ocultar todo y resetear estados
+  function hideAll() {
     formLogin.style.display = 'none';
     formRegister.style.display = 'none';
-    formSoporte.style.display = 'none';
+    userPage.style.display = 'none';
     btnRegresar.style.display = 'none';
-    currentForm = null;
   }
 
-  function showForm(form) {
-    hideAllForms();
-    form.style.display = 'flex';
-    btnRegresar.style.display = 'inline-block';
-    currentForm = form;
-  }
-
+  // Mostrar formulario login
   btnLogin.addEventListener('click', e => {
     e.preventDefault();
-    showForm(formLogin);
+    hideAll();
+    formLogin.style.display = 'flex';
+    btnRegresar.style.display = 'inline-block';
   });
 
+  // Mostrar formulario registro
   btnRegister.addEventListener('click', e => {
     e.preventDefault();
-    showForm(formRegister);
+    hideAll();
+    formRegister.style.display = 'flex';
+    btnRegresar.style.display = 'inline-block';
   });
 
-  btnSoporte.addEventListener('click', e => {
-    e.preventDefault();
-    showForm(formSoporte);
+  // Regresar al inicio (login por defecto)
+  btnRegresar.addEventListener('click', () => {
+    hideAll();
+    formLogin.style.display = 'flex';
   });
 
+  // Manejar modal políticas
   btnPoliticas.addEventListener('click', e => {
     e.preventDefault();
     modalPoliticas.style.display = 'flex';
     modalPoliticas.setAttribute('aria-hidden', 'false');
   });
-
-  footerPoliticas.addEventListener('click', e => {
-    e.preventDefault();
-    modalPoliticas.style.display = 'flex';
-    modalPoliticas.setAttribute('aria-hidden', 'false');
-  });
-
   modalClose.addEventListener('click', () => {
     modalPoliticas.style.display = 'none';
     modalPoliticas.setAttribute('aria-hidden', 'true');
   });
-
   window.addEventListener('click', e => {
     if(e.target === modalPoliticas) {
       modalPoliticas.style.display = 'none';
@@ -136,14 +372,108 @@
     }
   });
 
-  btnRegresar.addEventListener('click', () => {
-    hideAllForms();
+  // Simula login (solo para demo)
+  formLogin.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pass = document.getElementById('login-password').value.trim();
+
+    if(email && pass) {
+      // Aquí va lógica real (API, Firebase, etc)
+      hideAll();
+      userNameSpan.textContent = email.split('@')[0]; // usuario "nombre"
+      userPage.style.display = 'block';
+    } else {
+      alert('Completa todos los campos.');
+    }
   });
 
-  // Opcional: búsqueda simple en el header
-  headerSearch.addEventListener('input', (e) => {
-    // Aquí puedes integrar la lógica real de búsqueda
-    console.log('Buscando:', e.target.value);
+  // Simula registro (solo para demo)
+  formRegister.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('register-name').value.trim();
+    const username = document.getElementById('register-username').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const pass = document.getElementById('register-password').value.trim();
+    const role = document.getElementById('register-role').value;
+
+    if(name && username && email && pass && role) {
+      hideAll();
+      userNameSpan.textContent = username;
+      userPage.style.display = 'block';
+    } else {
+      alert('Completa todos los campos para registrarte.');
+    }
   });
 
+  // Botón soporte flotante abre formulario soporte
+  btnSoporteFloat.addEventListener('click', () => {
+    alert('Aquí puedes abrir el formulario de soporte o chat. Lo dejo a tu gusto.');
+    // Podrías mostrar un formulario o chat aquí si quieres.
+  });
+
+  // Chat online: toggle con soporte
+  btnSoporteFloat.addEventListener('dblclick', () => {
+    chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  // Enviar mensaje chat simple (local)
+  chatSendBtn.addEventListener('click', () => {
+<div id="modal-politicas" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:1000;" aria-hidden="true">
+  <div style="background:#fff; padding:20px; border-radius:10px; width:90%; max-width:600px; position:relative;">
+    <button id="modal-close" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer;">×</button>
+    <h2>Política y Privacidad</h2>
+    <p>Aquí irían tus políticas detalladas...</p>
+  </div>
+</div>
+
+<!-- Chat en línea -->
+<section id="chat-online" style="display:none; position:fixed; bottom:10px; right:10px; background:#f1f1f1; padding:15px; border-radius:15px; width:300px; box-shadow:0 0 10px rgba(0,0,0,0.3);">
+  <h4>Chat en Línea</h4>
+  <div id="chat-mensajes" style="height:150px; overflow-y:auto; background:#fff; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:10px;"></div>
+  <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." style="width:100%; padding:8px; border-radius:10px; border:1px solid #ccc;" />
+  <button id="chat-enviar" style="margin-top:5px; width:100%; background:#005a9c; color:#fff; border:none; padding:8px; border-radius:10px; cursor:pointer;">Enviar</button>
+</section>
+
+<!-- Botón flotante de soporte técnico -->
+<button id="btn-chat-toggle" style="position:fixed; bottom:80px; right:20px; width:50px; height:50px; background:#ff5252; border:none; border-radius:50%; color:white; font-size:24px; cursor:pointer;">!</button>
+
+<!-- Formulario de reporte de errores -->
+<section id="form-bug-report" style="margin-top:30px; padding:20px; background:#f9f9f9; border-radius:15px; max-width:600px; margin-left:auto; margin-right:auto;">
+  <h3>¿Algo salió mal?</h3>
+  <p>Puedes reportar errores, bugs o sugerencias directamente a nuestro correo.</p>
+  <input type="text" id="bug-message" placeholder="Describe el error o sugerencia..." style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:10px;" />
+  <button id="btn-bug-send" style="background:#005a9c; color:#fff; padding:10px 20px; border:none; border-radius:10px; cursor:pointer;">Enviar a zatuxcorporation@gmail.com</button>
+</section>
+
+<script>
+  const btnChatToggle = document.getElementById('btn-chat-toggle');
+  const chatOnline = document.getElementById('chat-online');
+  const chatEnviar = document.getElementById('chat-enviar');
+  const chatInput = document.getElementById('chat-input');
+  const chatMensajes = document.getElementById('chat-mensajes');
+  const btnBugSend = document.getElementById('btn-bug-send');
+  const bugMessage = document.getElementById('bug-message');
+
+  btnChatToggle.addEventListener('click', () => {
+    chatOnline.style.display = chatOnline.style.display === 'none' ? 'block' : 'none';
+  });
+
+  chatEnviar.addEventListener('click', () => {
+    const msg = chatInput.value.trim();
+    if (msg) {
+      const p = document.createElement('p');
+      p.textContent = msg;
+      chatMensajes.appendChild(p);
+      chatInput.value = '';
+      chatMensajes.scrollTop = chatMensajes.scrollHeight;
+    }
+  });
+
+  btnBugSend.addEventListener('click', () => {
+    const msg = bugMessage.value.trim();
+    if (msg) {
+      window.location.href = `mailto:zatuxcorporation@gmail.com?subject=Reporte%20de%20bug&body=${encodeURIComponent(msg)}`;
+    }
+  });
 </script>

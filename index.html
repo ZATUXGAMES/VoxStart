@@ -22,7 +22,7 @@
   }
 
   body, html {
-    margin:0; padding:0; height:100%;
+    margin: 0; padding: 0; height: 100%;
     font-family: 'Inter', sans-serif;
     background-color: var(--color-bg);
     color: var(--color-text);
@@ -41,13 +41,15 @@
     text-align: center;
   }
 
+  h1, h2 {
+    margin: 0 0 16px;
+  }
+
   h1 {
-    margin-bottom: 12px;
     font-weight: 600;
   }
 
   h2 {
-    margin-bottom: 24px;
     font-weight: 400;
     color: var(--color-text-light);
   }
@@ -55,6 +57,7 @@
   img.logo {
     width: 140px;
     margin-bottom: 24px;
+    user-select: none;
   }
 
   button {
@@ -70,8 +73,12 @@
     width: 100%;
     transition: background-color 0.3s ease;
   }
-  button:hover {
+  button:hover:not(:disabled) {
     background-color: #1366d6;
+  }
+  button:disabled {
+    background-color: var(--color-border);
+    cursor: not-allowed;
   }
 
   button.secondary {
@@ -79,7 +86,7 @@
     color: var(--color-primary);
     border: 2px solid var(--color-primary);
   }
-  button.secondary:hover {
+  button.secondary:hover:not(:disabled) {
     background-color: var(--color-primary);
     color: var(--color-white);
   }
@@ -92,6 +99,7 @@
     border-radius: 6px;
     font-size: 14px;
     color: var(--color-text);
+    transition: border-color 0.3s ease;
   }
   input:focus {
     border-color: var(--color-primary);
@@ -106,6 +114,9 @@
     font-weight: 600;
     margin-top: 12px;
     text-decoration: underline;
+  }
+  .link-button:hover {
+    color: #1366d6;
   }
 
   /* Hide all panels by default */
@@ -129,6 +140,16 @@
     font-size: 12px;
     color: var(--color-text-light);
     margin-top: 18px;
+    user-select: none;
+  }
+
+  /* Error message styling */
+  .error-msg {
+    color: var(--color-error);
+    font-size: 13px;
+    margin-bottom: 12px;
+    height: 18px;
+    user-select: none;
   }
 </style>
 </head>
@@ -137,60 +158,61 @@
 <div class="container">
 
   <!-- MENU PRINCIPAL -->
-  <div id="menu" class="panel active">
+  <div id="menu" class="panel active" aria-label="Menú principal">
     <img class="logo" src="https://i.ibb.co/7XNvR5t/voxstart-logo.png" alt="Vox Start Logo" />
-    <button id="btnLogin">Iniciar sesión</button>
-    <button id="btnRegister" class="secondary">Registrarse</button>
-    <div class="footer-text">Desarrollador empresarial: @zatuxofciall</div>
+    <button id="btnLogin" aria-controls="login">Iniciar sesión</button>
+    <button id="btnRegister" class="secondary" aria-controls="register">Registrarse</button>
+    <div class="footer-text" aria-live="polite">Desarrollador empresarial: @zatuxofciall</div>
   </div>
 
   <!-- LOGIN -->
-  <div id="login" class="panel">
+  <div id="login" class="panel" aria-label="Formulario de inicio de sesión">
     <h1>Iniciar sesión</h1>
-    <input type="email" id="loginEmail" placeholder="Correo electrónico" />
-    <input type="password" id="loginPass" placeholder="Contraseña" />
+    <div class="error-msg" id="loginError" aria-live="assertive"></div>
+    <input type="email" id="loginEmail" placeholder="Correo electrónico" autocomplete="username" />
+    <input type="password" id="loginPass" placeholder="Contraseña" autocomplete="current-password" />
     <button id="loginSubmit">Entrar</button>
-    <button class="link-button" id="loginBack">Volver</button>
+    <button class="link-button" id="loginBack" aria-controls="menu">Volver</button>
   </div>
 
   <!-- REGISTRO -->
-  <div id="register" class="panel">
+  <div id="register" class="panel" aria-label="Formulario de registro">
     <h1>Crear cuenta</h1>
-    <input type="text" id="regUser" placeholder="Nombre de usuario" />
-    <input type="email" id="regEmail" placeholder="Correo electrónico" />
-    <input type="password" id="regPass" placeholder="Contraseña" />
-    <input type="password" id="regPassConf" placeholder="Confirmar contraseña" />
+    <div class="error-msg" id="registerError" aria-live="assertive"></div>
+    <input type="text" id="regUser" placeholder="Nombre de usuario" autocomplete="username" />
+    <input type="email" id="regEmail" placeholder="Correo electrónico" autocomplete="email" />
+    <input type="password" id="regPass" placeholder="Contraseña" autocomplete="new-password" />
+    <input type="password" id="regPassConf" placeholder="Confirmar contraseña" autocomplete="new-password" />
     <button id="registerSubmit">Registrarse</button>
-    <button class="link-button" id="registerBack">Volver</button>
+    <button class="link-button" id="registerBack" aria-controls="menu">Volver</button>
   </div>
 
   <!-- PERFIL -->
-  <div id="profile" class="panel">
+  <div id="profile" class="panel" aria-label="Perfil de usuario">
     <h1>Perfil de usuario</h1>
     <p><strong>Nombre:</strong> <span id="profileName">Usuario</span></p>
-    <button id="btnPolicy">Política de privacidad</button>
-    <button id="btnSupport" class="secondary">Soporte</button>
-    <button class="link-button" id="profileLogout">Cerrar sesión</button>
+    <button id="btnPolicy" aria-controls="policy">Política de privacidad</button>
+    <button id="btnSupport" class="secondary" aria-controls="support">Soporte</button>
+    <button class="link-button" id="profileLogout" aria-controls="menu">Cerrar sesión</button>
   </div>
 
-  <!-- POLITICA -->
-  <div id="policy" class="panel scrollable">
+  <!-- POLÍTICA -->
+  <div id="policy" class="panel scrollable" aria-label="Política de privacidad">
     <h2>Política de privacidad</h2>
     <p>Aquí va el texto de la política de privacidad. Puedes agregar lo que quieras.</p>
-    <button class="link-button" id="policyBack">Volver</button>
+    <button class="link-button" id="policyBack" aria-controls="profile">Volver</button>
   </div>
 
   <!-- SOPORTE -->
-  <div id="support" class="panel scrollable">
+  <div id="support" class="panel scrollable" aria-label="Soporte técnico">
     <h2>Soporte técnico</h2>
     <p>Contacto, preguntas frecuentes y soporte para usuarios.</p>
-    <button class="link-button" id="supportBack">Volver</button>
+    <button class="link-button" id="supportBack" aria-controls="profile">Volver</button>
   </div>
 
 </div>
 
 <script>
-  // Manejo simple de paneles
   const panels = {
     menu: document.getElementById('menu'),
     login: document.getElementById('login'),
@@ -200,22 +222,48 @@
     support: document.getElementById('support')
   };
 
+  const errors = {
+    login: document.getElementById('loginError'),
+    register: document.getElementById('registerError')
+  };
+
   function showPanel(name) {
-    for (let key in panels) {
+    for (const key in panels) {
       panels[key].classList.remove('active');
     }
     panels[name].classList.add('active');
+    clearErrors();
+    clearInputs();
   }
 
-  // Botones menú
+  function clearErrors() {
+    for (const key in errors) {
+      errors[key].textContent = '';
+    }
+  }
+
+  function clearInputs() {
+    // No borrar inputs en perfil o políticas para evitar frustración
+    if(panels.login.classList.contains('active') === false) {
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPass').value = '';
+    }
+    if(panels.register.classList.contains('active') === false) {
+      document.getElementById('regUser').value = '';
+      document.getElementById('regEmail').value = '';
+      document.getElementById('regPass').value = '';
+      document.getElementById('regPassConf').value = '';
+    }
+  }
+
+  // Navegación botones menú
   document.getElementById('btnLogin').onclick = () => showPanel('login');
   document.getElementById('btnRegister').onclick = () => showPanel('register');
 
-  // Volver login y registro
   document.getElementById('loginBack').onclick = () => showPanel('menu');
   document.getElementById('registerBack').onclick = () => showPanel('menu');
 
-  // Botones perfil
+  // Perfil botones
   document.getElementById('btnPolicy').onclick = () => showPanel('policy');
   document.getElementById('btnSupport').onclick = () => showPanel('support');
   document.getElementById('policyBack').onclick = () => showPanel('profile');
@@ -223,46 +271,66 @@
 
   // Cerrar sesión
   document.getElementById('profileLogout').onclick = () => {
-    // Resetea campos y regresa al menú
-    document.getElementById('loginEmail').value = '';
-    document.getElementById('loginPass').value = '';
-    document.getElementById('regUser').value = '';
-    document.getElementById('regEmail').value = '';
-    document.getElementById('regPass').value = '';
-    document.getElementById('regPassConf').value = '';
     showPanel('menu');
   };
 
-  // Simulación registro y login (puedes conectar con backend)
+  // Validaciones simples de formulario
+  function validateEmail(email) {
+    // Regex simple para email válido
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
   document.getElementById('registerSubmit').onclick = () => {
+    clearErrors();
+
     const user = document.getElementById('regUser').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const pass = document.getElementById('regPass').value;
     const passConf = document.getElementById('regPassConf').value;
 
     if(!user || !email || !pass || !passConf) {
-      alert('Por favor completa todos los campos.');
+      errors.register.textContent = 'Completa todos los campos.';
+      return;
+    }
+    if (!validateEmail(email)) {
+      errors.register.textContent = 'Correo electrónico no válido.';
       return;
     }
     if(pass !== passConf) {
-      alert('Las contraseñas no coinciden.');
+      errors.register.textContent = 'Las contraseñas no coinciden.';
       return;
     }
-    // Aquí se haría la validación real con backend
+    if(pass.length < 6) {
+      errors.register.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+      return;
+    }
+
+    // Aquí se haría la validación real con backend y creación de usuario
+
     document.getElementById('profileName').textContent = user;
     showPanel('profile');
   };
 
   document.getElementById('loginSubmit').onclick = () => {
+    clearErrors();
+
     const email = document.getElementById('loginEmail').value.trim();
     const pass = document.getElementById('loginPass').value;
 
     if(!email || !pass) {
-      alert('Por favor completa todos los campos.');
+      errors.login.textContent = 'Completa todos los campos.';
       return;
     }
-    // Aquí validación real con backend
-    // Simulamos que el usuario se llama "UsuarioDemo"
+    if (!validateEmail(email)) {
+      errors.login.textContent = 'Correo electrónico no válido.';
+      return;
+    }
+    if(pass.length < 6) {
+      errors.login.textContent = 'Contraseña incorrecta o muy corta.';
+      return;
+    }
+
+    // Aquí validación real con backend (simulado)
     document.getElementById('profileName').textContent = 'UsuarioDemo';
     showPanel('profile');
   };

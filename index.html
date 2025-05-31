@@ -5,66 +5,103 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zatux Oficial - Política y Nosotros</title>
   <style>
+    /* Reset básico */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #eee;
+      background-color: #000000;
+      color: #ff2e2e;
       margin: 0;
-      padding: 20px;
-      max-width: 900px;
+      padding: 40px 20px;
+      max-width: 960px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     header {
-      border-bottom: 2px solid #00c8ff;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 20px;
+      margin-bottom: 50px;
+      border-bottom: 2px solid #ff2e2e;
+      padding-bottom: 15px;
     }
     header img {
-      height: 50px;
-      border-radius: 6px;
+      height: 60px;
+      width: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #ff2e2e66;
     }
     header h1 {
-      color: #00c8ff;
+      font-weight: 900;
+      font-size: 2.8rem;
+      letter-spacing: 0.06em;
       margin: 0;
-      font-weight: 700;
-      font-size: 2rem;
+      user-select: none;
     }
     section {
-      margin-bottom: 40px;
+      margin-bottom: 60px;
     }
     h2 {
-      color: #00c8ff;
-      border-bottom: 2px solid #00c8ff;
-      padding-bottom: 6px;
-      margin-bottom: 15px;
-      font-weight: 600;
+      font-weight: 800;
+      font-size: 1.9rem;
+      border-bottom: 3px solid #ff2e2e;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
     p {
-      line-height: 1.6;
-      font-size: 1rem;
+      font-size: 1.1rem;
+      color: #ff4d4d;
+      max-width: 800px;
+    }
+    strong {
+      color: #ff1a1a;
     }
     a {
-      color: #00c8ff;
+      color: #ff2e2e;
+      font-weight: 700;
       text-decoration: none;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.3s ease;
+      cursor: pointer;
     }
-    a:hover {
-      text-decoration: underline;
+    a:hover,
+    a:focus {
+      border-bottom-color: #ff2e2e;
+      outline: none;
     }
     footer {
-      border-top: 1px solid #333;
       text-align: center;
-      padding-top: 15px;
-      color: #666;
-      font-size: 0.9rem;
+      border-top: 1px solid #330000;
+      padding-top: 20px;
+      color: #660000;
+      font-size: 0.95rem;
+      user-select: none;
     }
     .social-link {
       margin-top: 10px;
       display: inline-block;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      header h1 {
+        font-size: 2.2rem;
+        text-align: center;
+      }
+      section {
+        margin-bottom: 40px;
+      }
     }
   </style>
 </head>
@@ -78,7 +115,7 @@
 <section>
   <h2>¿Quiénes somos?</h2>
   <p>
-    Somos <strong>ZatuxOficial</strong>, una corporación dedicada al desarrollo de aplicaciones, videojuegos y soluciones tecnológicas innovadoras. 
+    Somos <strong>ZatuxOficial</strong>, una corporación dedicada al desarrollo de aplicaciones, videojuegos y soluciones tecnológicas innovadoras.<br />
     Nuestro objetivo es contribuir al bienestar y desarrollo mediante productos digitales de alta calidad y un enfoque serio y profesional.
   </p>
 </section>
@@ -86,11 +123,12 @@
 <section>
   <h2>Política de Privacidad y Seguridad</h2>
   <p>
-    En ZatuxOficial respetamos tu privacidad y nos comprometemos a proteger tus datos personales. 
+    En ZatuxOficial respetamos tu privacidad y nos comprometemos a proteger tus datos personales.<br />
     Toda información recolectada es usada exclusivamente para mejorar tu experiencia con nuestros productos y servicios.
   </p>
   <p>
-    No compartimos tus datos con terceros sin tu consentimiento explícito. Utilizamos protocolos seguros para garantizar la confidencialidad y seguridad de tu información.
+    No compartimos tus datos con terceros sin tu consentimiento explícito.<br />
+    Utilizamos protocolos seguros para garantizar la confidencialidad y seguridad de tu información.
   </p>
   <p>
     Si tienes alguna duda o deseas solicitar la eliminación de tus datos, contáctanos a través de nuestros canales oficiales.
@@ -103,8 +141,8 @@
     Síguenos en nuestra cuenta oficial de TikTok para estar al día con novedades, tutoriales y más contenido exclusivo:
   </p>
   <p class="social-link">
-    <a href="https://www.tiktok.com/@zatuxoficiall?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer">
-      @zatuxoficial en TikTok
+    <a href="https://www.tiktok.com/@zatuxoficiall?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" aria-label="TikTok Zatux Oficial">
+      @zatuxoficiall en TikTok
     </a>
   </p>
 </section>
@@ -115,3 +153,4 @@
 
 </body>
 </html>
+
